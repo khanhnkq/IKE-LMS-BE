@@ -1,0 +1,68 @@
+{
+  "realm": "ike",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "clients": [
+    {
+      "clientId": "ike-backend",
+      "enabled": true,
+      "bearerOnly": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false
+    },
+    {
+      "clientId": "ike-admin-web",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "redirectUris": ["http://localhost:3000/*"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      { "name": "IKE_ADMIN", "description": "Quản trị hệ thống IKE" },
+      { "name": "CENTER_MANAGER", "description": "Quản lý trung tâm" },
+      { "name": "TEACHER", "description": "Giáo viên" },
+      { "name": "FINANCE_OFFICER", "description": "Cán bộ tài chính" },
+      { "name": "STUDENT", "description": "Học viên" }
+    ]
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "admin@ike.local",
+      "credentials": [{ "type": "password", "value": "admin", "temporary": false }],
+      "realmRoles": ["IKE_ADMIN"],
+      "attributes": { "tenant_id": ["1"] }
+    }
+  ],
+  "clientScopes": [
+    {
+      "name": "tenant",
+      "protocol": "openid-connect",
+      "mappers": [
+        {
+          "name": "tenant_id",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "tenant_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "tenant_id",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: ike-postgres
+    environment:
+      POSTGRES_DB: ike
+      POSTGRES_USER: ike
+      POSTGRES_PASSWORD: ike_dev_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ike_pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ike"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: ike-redis
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: ike-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ike
+      RABBITMQ_DEFAULT_PASS: ike_dev_pass
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: ike-keycloak
+    command: start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/ike
+      KC_DB_USERNAME: ike
+      KC_DB_PASSWORD: ike_dev_pass
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./config/keycloak-realm-ike.json:/opt/keycloak/data/import/realm.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  ike_pg_data:

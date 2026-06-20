@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: ike-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ike
+    username: ike
+    password: ike_dev_pass
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc.time_zone: UTC
+    open-in-view: false
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/ike
+          jwk-set-uri: http://localhost:8180/realms/ike/protocol/openid-connect/certs
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,modulith
+
+logging:
+  level:
+    com.ike: DEBUG

@@ -1,0 +1,38 @@
+[versions]
+kotlin = "1.9.24"
+springBoot = "3.3.2"
+springDependencyManagement = "1.1.6"
+springModulith = "1.2.1"
+axon = "4.10.0"
+detekt = "1.23.6"
+testcontainers = "1.20.1"
+keycloakTestcontainers = "3.4.0"
+
+[libraries]
+spring-boot-starter = { module = "org.springframework.boot:spring-boot-starter" }
+spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
+spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
+spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
+spring-boot-starter-oauth2-resource-server = { module = "org.springframework.boot:spring-boot-starter-oauth2-resource-server" }
+spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
+spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools" }
+spring-modulith-starter-core = { module = "org.springframework.modulith:spring-modulith-starter-core", version.ref = "springModulith" }
+spring-modulith-docs = { module = "org.springframework.modulith:spring-modulith-docs", version.ref = "springModulith" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin" }
+postgresql = { module = "org.postgresql:postgresql" }
+flyway-core = { module = "org.flywaydb:flyway-core" }
+flyway-database-postgresql = { module = "org.flywaydb:flyway-database-postgresql" }
+spring-boot-starter-data-redis = { module = "org.springframework.boot:spring-boot-starter-data-redis" }
+spring-boot-starter-amqp = { module = "org.springframework.boot:spring-boot-starter-amqp" }
+spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
+testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "testcontainers" }
+testcontainers-postgresql = { module = "org.testcontainers:postgresql", version.ref = "testcontainers" }
+testcontainers-keycloak = { module = "com.github.dasniko:testcontainers-keycloak", version.ref = "keycloakTestcontainers" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-spring = { id = "org.jetbrains.kotlin.plugin.spring", version.ref = "kotlin" }
+kotlin-jpa = { id = "org.jetbrains.kotlin.plugin.jpa", version.ref = "kotlin" }
+spring-boot = { id = "org.springframework.boot", version.ref = "springBoot" }
+spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "springDependencyManagement" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
