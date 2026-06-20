@@ -1,22 +1,18 @@
 package com.ike.platform
 
 import org.springframework.boot.SpringBootConfiguration
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-import org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage
+import org.springframework.boot.autoconfigure.domain.EntityScan
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 /**
  * Test configuration cho platform module tests.
- * Cần [@EnableAutoConfiguration] để kích hoạt JPA/DataSource/JdbcTemplate beans.
- * Exclude security/web auto-config để không phụ thuộc Keycloak thật.
+ * [@AutoConfigurationPackage] đăng ký base package cho auto-configuration
+ * để @DataJpaTest và các slice test khác có thể scan entities/repositories.
+ * Không cần @EnableAutoConfiguration vì slice test tự import config riêng.
  */
 @SpringBootConfiguration
-@EnableAutoConfiguration(
-    exclude = [
-        SecurityAutoConfiguration::class,
-        OAuth2ResourceServerAutoConfiguration::class,
-        WebMvcAutoConfiguration::class
-    ]
-)
+@AutoConfigurationPackage(basePackages = ["com.ike.platform"])
+@EntityScan(basePackages = ["com.ike.platform.persistence"])
+@EnableJpaRepositories(basePackages = ["com.ike.platform.persistence"])
 class TestPlatformConfig
